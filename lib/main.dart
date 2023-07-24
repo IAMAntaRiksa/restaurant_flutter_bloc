@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_caffe_ku/global.bloc.dart';
 import 'package:flutter_caffe_ku/injector.dart';
-
-import 'package:flutter_caffe_ku/ui/screens/auth/register/register_screen.dart';
+import 'package:flutter_caffe_ku/ui/router/route.dart';
+import 'package:flutter_caffe_ku/ui/screens/auth/login/login_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'ui/constant/constant.dart';
 
 void main() async {
@@ -24,7 +23,7 @@ void main() async {
   ));
 }
 
-var pageScreen = const RegisterScreen();
+var pageScreen = const LoginScreen();
 
 class MyApp extends StatelessWidget {
   final List<BlocProvider> providers;
@@ -36,14 +35,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: providers,
-      child: MaterialApp(
+      child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: pageScreen,
         builder: (ctx, child) {
           setupScreenUtil(ctx);
           return MediaQuery(
@@ -54,6 +52,7 @@ class MyApp extends StatelessWidget {
             ),
           );
         },
+        routerConfig: route,
       ),
     );
   }

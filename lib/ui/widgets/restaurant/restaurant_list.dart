@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_caffe_ku/core/models/restaurant/restaurant_model.dart';
+import 'package:flutter_caffe_ku/ui/screens/restaurant/restaurant_detail_screen.dart';
 import 'package:flutter_caffe_ku/ui/widgets/restaurant/restaurant_item.dart';
+import 'package:go_router/go_router.dart';
 
 class RestaurantListWidget extends StatelessWidget {
   final List<RestaurantModel> restaurants;
@@ -25,7 +27,11 @@ class RestaurantListWidget extends StatelessWidget {
         return RestaurantItem(
           restaurant: restaurant,
           userHero: useHero,
-          onClick: () => {},
+          onClick: () => useReplacement
+              ? context
+                  .push("${RestaurantDetailScreen.routeName}/${restaurant.id}")
+              : context
+                  .push("${RestaurantDetailScreen.routeName}/${restaurant.id}"),
         );
       },
     );

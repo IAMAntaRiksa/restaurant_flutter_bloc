@@ -3,17 +3,17 @@ import 'package:flutter_caffe_ku/core/models/api/api_result_model.dart';
 import 'package:flutter_caffe_ku/core/models/attribute/atribute_model.dart';
 
 base class RestaurantModel extends Serializable {
-  final int id;
+  final int? id;
   final AttributeModel? attributes;
 
   RestaurantModel({
-    required this.id,
+    this.id,
     required this.attributes,
   });
 
   factory RestaurantModel.fromJson(Map<String, dynamic> json) {
     return RestaurantModel(
-      id: json['id'] ?? "",
+      id: json['id'] ?? 0,
       attributes: json['attributes'] != null
           ? AttributeModel.fromJson(json['attributes'])
           : null,

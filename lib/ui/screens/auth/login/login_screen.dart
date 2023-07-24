@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_caffe_ku/core/models/auth/login_model.dart';
-import 'package:flutter_caffe_ku/core/viewsmodel/login/login_bloc.dart';
+import 'package:flutter_caffe_ku/core/utils/token/token_utils.dart';
+import 'package:flutter_caffe_ku/core/viewmodels/login/login_bloc.dart';
 import 'package:flutter_caffe_ku/ui/constant/constant.dart';
+import 'package:flutter_caffe_ku/ui/screens/auth/register/register_screen.dart';
+import 'package:flutter_caffe_ku/ui/screens/restaurant/my_restaurant_screen.dart';
 import 'package:flutter_caffe_ku/ui/widgets/button/button.dart';
 import 'package:flutter_caffe_ku/ui/widgets/textfield/custom_textfield.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatelessWidget {
+  static const routeName = "/login";
   const LoginScreen({super.key});
 
   @override
@@ -102,6 +107,9 @@ class _LoginBodyState extends State<LoginBody> {
                           content:
                               Text('Success Login: ${model.user?.username}')));
                       print("Data INI Dua : ${model.user!.username}");
+                      await checkTokken.saveTokenUser(model);
+                      // ignore: use_build_context_synchronously
+                      context.push(MyRestaurantScreen.routeName);
                     },
                   );
                 },
@@ -119,6 +127,34 @@ class _LoginBodyState extends State<LoginBody> {
                     ),
                   );
                 },
+              ),
+              SizedBox(
+                height: setHeight(20),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    "Dont't have an account?",
+                    style: styleSubtitle.copyWith(
+                      fontSize: setFontSize(40),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      context.go(
+                        RegisterScreen.routeName,
+                      );
+                    },
+                    child: Text(
+                      'Register',
+                      style: styleSubtitle.copyWith(
+                        fontSize: setFontSize(40),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

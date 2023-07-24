@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_caffe_ku/core/models/auth/login_model.dart';
 import 'package:flutter_caffe_ku/core/models/auth/register_model.dart';
 import 'package:flutter_caffe_ku/core/services/auth/auth_service.dart';
-import 'package:flutter_caffe_ku/core/viewsmodel/login/login_bloc.dart';
 import 'package:flutter_caffe_ku/injector.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

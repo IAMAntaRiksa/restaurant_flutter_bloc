@@ -20,18 +20,21 @@ mixin _$RestaurantEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getRestaurats,
+    required TResult Function() getRestaurantById,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getRestaurats,
+    TResult? Function()? getRestaurantById,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getRestaurats,
+    TResult Function()? getRestaurantById,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -39,18 +42,21 @@ mixin _$RestaurantEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetRestaurants value) getRestaurats,
+    required TResult Function(_GetRestaurantById value) getRestaurantById,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetRestaurants value)? getRestaurats,
+    TResult? Function(_GetRestaurantById value)? getRestaurantById,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetRestaurants value)? getRestaurats,
+    TResult Function(_GetRestaurantById value)? getRestaurantById,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -113,6 +119,7 @@ class _$_Started implements _Started {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getRestaurats,
+    required TResult Function() getRestaurantById,
   }) {
     return started();
   }
@@ -122,6 +129,7 @@ class _$_Started implements _Started {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getRestaurats,
+    TResult? Function()? getRestaurantById,
   }) {
     return started?.call();
   }
@@ -131,6 +139,7 @@ class _$_Started implements _Started {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getRestaurats,
+    TResult Function()? getRestaurantById,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -144,6 +153,7 @@ class _$_Started implements _Started {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetRestaurants value) getRestaurats,
+    required TResult Function(_GetRestaurantById value) getRestaurantById,
   }) {
     return started(this);
   }
@@ -153,6 +163,7 @@ class _$_Started implements _Started {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetRestaurants value)? getRestaurats,
+    TResult? Function(_GetRestaurantById value)? getRestaurantById,
   }) {
     return started?.call(this);
   }
@@ -162,6 +173,7 @@ class _$_Started implements _Started {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetRestaurants value)? getRestaurats,
+    TResult Function(_GetRestaurantById value)? getRestaurantById,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -215,6 +227,7 @@ class _$_GetRestaurants implements _GetRestaurants {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() getRestaurats,
+    required TResult Function() getRestaurantById,
   }) {
     return getRestaurats();
   }
@@ -224,6 +237,7 @@ class _$_GetRestaurants implements _GetRestaurants {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? getRestaurats,
+    TResult? Function()? getRestaurantById,
   }) {
     return getRestaurats?.call();
   }
@@ -233,6 +247,7 @@ class _$_GetRestaurants implements _GetRestaurants {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? getRestaurats,
+    TResult Function()? getRestaurantById,
     required TResult orElse(),
   }) {
     if (getRestaurats != null) {
@@ -246,6 +261,7 @@ class _$_GetRestaurants implements _GetRestaurants {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_GetRestaurants value) getRestaurats,
+    required TResult Function(_GetRestaurantById value) getRestaurantById,
   }) {
     return getRestaurats(this);
   }
@@ -255,6 +271,7 @@ class _$_GetRestaurants implements _GetRestaurants {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_GetRestaurants value)? getRestaurats,
+    TResult? Function(_GetRestaurantById value)? getRestaurantById,
   }) {
     return getRestaurats?.call(this);
   }
@@ -264,6 +281,7 @@ class _$_GetRestaurants implements _GetRestaurants {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_GetRestaurants value)? getRestaurats,
+    TResult Function(_GetRestaurantById value)? getRestaurantById,
     required TResult orElse(),
   }) {
     if (getRestaurats != null) {
@@ -275,6 +293,114 @@ class _$_GetRestaurants implements _GetRestaurants {
 
 abstract class _GetRestaurants implements RestaurantEvent {
   const factory _GetRestaurants() = _$_GetRestaurants;
+}
+
+/// @nodoc
+abstract class _$$_GetRestaurantByIdCopyWith<$Res> {
+  factory _$$_GetRestaurantByIdCopyWith(_$_GetRestaurantById value,
+          $Res Function(_$_GetRestaurantById) then) =
+      __$$_GetRestaurantByIdCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_GetRestaurantByIdCopyWithImpl<$Res>
+    extends _$RestaurantEventCopyWithImpl<$Res, _$_GetRestaurantById>
+    implements _$$_GetRestaurantByIdCopyWith<$Res> {
+  __$$_GetRestaurantByIdCopyWithImpl(
+      _$_GetRestaurantById _value, $Res Function(_$_GetRestaurantById) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_GetRestaurantById implements _GetRestaurantById {
+  const _$_GetRestaurantById();
+
+  @override
+  String toString() {
+    return 'RestaurantEvent.getRestaurantById()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_GetRestaurantById);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() getRestaurats,
+    required TResult Function() getRestaurantById,
+  }) {
+    return getRestaurantById();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? getRestaurats,
+    TResult? Function()? getRestaurantById,
+  }) {
+    return getRestaurantById?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? getRestaurats,
+    TResult Function()? getRestaurantById,
+    required TResult orElse(),
+  }) {
+    if (getRestaurantById != null) {
+      return getRestaurantById();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_GetRestaurants value) getRestaurats,
+    required TResult Function(_GetRestaurantById value) getRestaurantById,
+  }) {
+    return getRestaurantById(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_GetRestaurants value)? getRestaurats,
+    TResult? Function(_GetRestaurantById value)? getRestaurantById,
+  }) {
+    return getRestaurantById?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_GetRestaurants value)? getRestaurats,
+    TResult Function(_GetRestaurantById value)? getRestaurantById,
+    required TResult orElse(),
+  }) {
+    if (getRestaurantById != null) {
+      return getRestaurantById(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetRestaurantById implements RestaurantEvent {
+  const factory _GetRestaurantById() = _$_GetRestaurantById;
 }
 
 /// @nodoc

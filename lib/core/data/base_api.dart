@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_caffe_ku/core/data/api.dart';
 import 'package:flutter_caffe_ku/core/data/base_api_impl.dart';
 import 'package:flutter_caffe_ku/core/models/api/api_response.dart';
+import 'package:flutter_caffe_ku/core/utils/token/token_utils.dart';
 import 'package:flutter_caffe_ku/injector.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -75,12 +76,12 @@ class BaseAPI implements BaseAPIImpl {
   }
 
   Future<Options> getHeaders({bool? useToken}) async {
+    var token = await checkTokken.getTokenUser();
     var header = <String, dynamic>{};
     header['Accept'] = 'application/json';
     header['Content-Type'] = 'application/json; charset=UTF-8';
-
     if (useToken == true) {
-      header['Authorization'] = useToken;
+      header['Authorization'] = 'Bearer $token ';
     }
 
     return Options(

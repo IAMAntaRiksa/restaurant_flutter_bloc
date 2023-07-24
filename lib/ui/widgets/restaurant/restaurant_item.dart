@@ -25,7 +25,7 @@ class RestaurantItem extends StatelessWidget {
         child: Row(
           children: [
             userHero
-                ? Hero(tag: restaurant.id, child: _imageWidget(context))
+                ? Hero(tag: restaurant.id!, child: _imageWidget(context))
                 : _imageWidget(context),
             const SizedBox(
               width: 20,
@@ -95,7 +95,9 @@ class RestaurantItem extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         image: DecorationImage(
-          image: NetworkImage(restaurant.attributes!.photo),
+          image: NetworkImage(
+            restaurant.attributes!.photo,
+          ),
           fit: BoxFit.cover,
         ),
       ),

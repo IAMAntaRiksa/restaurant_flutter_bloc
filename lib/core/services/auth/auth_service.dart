@@ -14,17 +14,11 @@ class AuthServices {
     APIResponse response = await api.post(
       api.endpoint.loginResturant,
       data: model.toJson(),
-      useToken: true,
     );
-
     if (response.statusCode == 200) {
-      return Right(
-        AuthRespponseModel.fromJson(response.data!),
-      );
+      return Right(AuthRespponseModel.fromJson(response.data!));
     } else {
-      return const Left(
-        'Password Dan Email Salah!, Silakan Coba login ulang',
-      );
+      return const Left('Password Dan Email Salah!, Silakan Coba login ulang');
     }
   }
 
@@ -33,17 +27,12 @@ class AuthServices {
     APIResponse response = await api.post(
       api.endpoint.registerResturant,
       data: model.toJson(),
-      useToken: true,
     );
 
     if (response.statusCode == 200) {
-      return Right(
-        AuthRespponseModel.fromJson(response.data!),
-      );
+      return Right(AuthRespponseModel.fromJson(response.data!));
     } else {
-      return const Left(
-        'Register Gagal Perikasa Koneksi!',
-      );
+      return const Left('Register Gagal Perikasa Koneksi!');
     }
   }
 }

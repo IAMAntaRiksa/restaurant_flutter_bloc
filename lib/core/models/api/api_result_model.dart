@@ -2,6 +2,7 @@ class ApiResult<T extends Serializable> {
   String? message;
   bool? error;
   T? data;
+
   ApiResult({
     required this.message,
     required this.error,
@@ -45,14 +46,14 @@ class ApiResultList<T extends Serializable> {
       message: json?['message'] ?? "",
       error: json?['error'] ?? false,
 
-      // data: json?[field] != null && json?[field] is List
-      //     ? build(json?[field])
-      //     : build([]),
-      data: field != null
+      data: json?[field] != null && json?[field] is List
           ? build(json?[field])
-          : json?[field] != null
-              ? build(json?[field])
-              : build([]),
+          : build([]),
+      // data: field != null
+      //     ? build(json?[field])
+      //     : json?[field] != null
+      //         ? build(json?[field])
+      //         : build([]),
     );
   }
 
