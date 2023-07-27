@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter_caffe_ku/core/models/auth/login_model.dart';
 import 'package:flutter_caffe_ku/core/utils/global/shared_manager.dart';
 import 'package:flutter_caffe_ku/injector.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenUtils {
   final String _token = "token";
@@ -16,7 +17,7 @@ class TokenUtils {
     final shared = SharedManager<String>();
     final tokens = await shared.read(_token) ?? "";
     final authData = AuthRespponseModel.fromJson(jsonDecode(tokens));
-    return authData.jwt!;
+    return authData.jwt ?? '';
   }
 
   Future<int> getUserId() async {
@@ -32,10 +33,9 @@ class TokenUtils {
     return tokens.isNotEmpty;
   }
 
-  Future<void> removeToken() async {
-    final shared = SharedManager<String>();
-    final remove = await shared.read(_token) ?? "";
-    await shared.clear(remove);
+  Future<bool> removeToken() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.remove(_token);
   }
 }
 

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +9,6 @@ import 'package:flutter_caffe_ku/core/models/restaurant/upload_restaurant_image_
 import 'package:flutter_caffe_ku/core/utils/token/token_utils.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../models/restaurant/restaurant_model.dart';
-import 'package:http/http.dart' as http;
 
 class RestaurantService {
   BaseAPI api;
@@ -19,7 +16,8 @@ class RestaurantService {
   RestaurantService(this.api);
 
   Future<ApiResultList<RestaurantModel>> getRestaurants() async {
-    APIResponse response = await api.get(api.endpoint.getRestaurants);
+    APIResponse response =
+        await api.get(api.endpoint.getRestaurants, useToken: false);
     return ApiResultList<RestaurantModel>.fromJson(
       response.data,
       (data) => data.map((e) => RestaurantModel.fromJson(e)).toList(),
@@ -50,7 +48,6 @@ class RestaurantService {
     APIResponse response = await api.post(
       api.endpoint.createRestaurant,
       data: model.toJson(),
-      useToken: true,
     );
     debugPrint("Data Model 1: ${model.toJson()}");
     debugPrint("Data Model 2: ${model.data.toJson()}");
@@ -73,51 +70,18 @@ class RestaurantService {
       'files': file,
     });
 
-    APIResponse response = await api.post(
-      api.endpoint.uploadImageRestaurant,
-      data: formData,
-      useToken: true,
-    );
+    final Dio dio = Dio();
+    final token = await checkTokken.getTokenUser();
+    Response response = await dio.post(api.endpoint.uploadImageRestaurant,
+        data: formData,
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+        }));
+
     if (response.statusCode == 200) {
-      return Right(
-        UploadRestaurantImageModel.fromJson(
-          jsonDecode(response.data![0]),
-        ),
-      );
+      return Right(UploadRestaurantImageModel.fromJson(response.data[0]));
     } else {
       return const Left('API ERROR');
     }
   }
-
-  // Future<Either<String, UploadRestaurantImageModel>> uploadImage(
-  //     XFile image) async {
-  //   final token = await checkTokken.getTokenUser();
-  //   final header = <String, String>{
-  //     'Authorization': 'Bearer $token',
-  //   };
-  //   final request = http.MultipartRequest(
-  //     'POST',
-  //     Uri.parse(api.endpoint.uploadImageRestaurant),
-  //   );
-
-  //   final bytes = await image.readAsBytes();
-
-  //   final multiPartFile =
-  //       http.MultipartFile.fromBytes('files', bytes, filename: image.name);
-
-  //   request.files.add(multiPartFile);
-  //   request.headers.addAll(header);
-
-  //   http.StreamedResponse response = await request.send();
-
-  //   final responseList = await response.stream.toBytes();
-  //   final String responseData = String.fromCharCodes(responseList);
-
-  //   if (response.statusCode == 200) {
-  //     return Right(
-  //         UploadRestaurantImageModel.fromJson(jsonDecode(responseData)[0]));
-  //   } else {
-  //     return const Left('error upload image');
-  //   }
-  // }
 }

@@ -81,15 +81,14 @@ class LocationUtils {
   Future<Either<String, GmapModel>> getPosition(
       {required double lat, required double long}) async {
     final Location location = Location();
-    late LocationData locationData;
-
+    // late LocationData locationData;
     final state = await _getPermission(location);
 
     if (!state) return const Left("Permission not granted");
-    locationData = await location.getLocation();
+    // locationData = await location.getLocation();
     final latLng = LatLng(
-      locationData.latitude!,
-      locationData.longitude!,
+      lat,
+      long,
     );
 
     final info = await geo.placemarkFromCoordinates(

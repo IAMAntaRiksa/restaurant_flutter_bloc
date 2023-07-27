@@ -12,10 +12,6 @@ part 'restaurant_state.dart';
 part 'restaurant_bloc.freezed.dart';
 
 class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
-  /// Instance Bloc
-  static RestaurantBloc instance(BuildContext context) =>
-      BlocProvider.of(context, listen: false);
-
   /// Depedency Injection
   final RestaurantService restauratService = locator<RestaurantService>();
 

@@ -66,9 +66,9 @@ class MyRestaurantBody extends StatefulWidget {
 class _MyRestaurantBodyState extends State<MyRestaurantBody> {
   @override
   void initState() {
-    RestaurantBloc.instance(context).add(
-      const RestaurantEvent.getRestaurantById(),
-    );
+    context.read<RestaurantBloc>().add(
+          const RestaurantEvent.getRestaurantById(),
+        );
     super.initState();
   }
 

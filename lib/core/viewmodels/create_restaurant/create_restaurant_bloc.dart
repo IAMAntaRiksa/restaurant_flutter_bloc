@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_caffe_ku/core/models/restaurant/create_restaurant.dart';
 import 'package:flutter_caffe_ku/core/models/restaurant/restaurant_model.dart';
+import 'package:flutter_caffe_ku/core/models/restaurant/upload_restaurant_image_model.dart';
 import 'package:flutter_caffe_ku/core/services/restaurant/restauran_service.dart';
 import 'package:flutter_caffe_ku/injector.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -14,10 +15,6 @@ part 'create_restaurant_bloc.freezed.dart';
 
 class CreateRestaurantBloc
     extends Bloc<CreateRestaurantEvent, CreateRestaurantState> {
-  /// Instance Bloc
-  static CreateRestaurantBloc instance(BuildContext context) =>
-      BlocProvider.of(listen: false, context);
-
   /// Depedency Injection
   final restaurantService = locator<RestaurantService>();
 

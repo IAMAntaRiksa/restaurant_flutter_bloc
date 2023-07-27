@@ -126,13 +126,11 @@ class _RegisterBodyState extends State<RegisterBody> {
                       error: (data) {
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Error Register: $data')));
-                        print("Data INI Satu : $data");
                       },
                       loaded: (model) async {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(
                                 'Success Register: ${model.user?.username}')));
-                        print("Data INI Dua : ${model.user!.username}");
                         await checkTokken.saveTokenUser(model);
                         // ignore: use_build_context_synchronously
                         context.push(MyRestaurantScreen.routeName);

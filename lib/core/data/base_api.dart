@@ -76,12 +76,12 @@ class BaseAPI implements BaseAPIImpl {
   }
 
   Future<Options> getHeaders({bool? useToken}) async {
-    var token = await checkTokken.getTokenUser();
+    // final token = await checkTokken.getTokenUser();
     var header = <String, dynamic>{};
     header['Accept'] = 'application/json';
     header['Content-Type'] = 'application/json; charset=UTF-8';
     if (useToken == true) {
-      header['Authorization'] = 'Bearer $token ';
+      header['Authorization'] = '';
     }
 
     return Options(

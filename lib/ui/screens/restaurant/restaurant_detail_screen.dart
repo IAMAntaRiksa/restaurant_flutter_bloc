@@ -4,6 +4,7 @@ import 'package:flutter_caffe_ku/core/models/restaurant/restaurant_model.dart';
 import 'package:flutter_caffe_ku/core/viewmodels/detail_restaurant/detail_restaurant_bloc.dart';
 import 'package:flutter_caffe_ku/core/viewmodels/location/location_bloc.dart';
 import 'package:flutter_caffe_ku/ui/constant/constant.dart';
+import 'package:flutter_caffe_ku/ui/screens/direction_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -278,7 +279,7 @@ class __RestaurantMapDetailWidgetState
 
   void addCustomIcon() {
     BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(size: Size(10, 10)),
+            ImageConfiguration(size: Size(setWidth(20), setHeight(20))),
             "assets/markers/mappin.png")
         .then(
       (icon) {
@@ -302,12 +303,12 @@ class __RestaurantMapDetailWidgetState
 
   LatLng? position;
   LatLng? positionDestination;
+
   @override
   Widget build(BuildContext context) {
     final lat = double.parse(widget.restaurant.attributes!.latitude);
     final lng = double.parse(widget.restaurant.attributes!.longitude);
     positionDestination = LatLng(lat, lng);
-    debugPrint('latlng: $lat, $lng');
     position = LatLng(lat, lng);
     createMarker(lat, lng, widget.restaurant.attributes!.address);
     return Padding(
@@ -337,6 +338,33 @@ class __RestaurantMapDetailWidgetState
                 zoom: 15,
               ),
             ),
+          ),
+          const SizedBox(height: 20),
+          BlocBuilder<LocationBloc, LocationState>(
+            builder: (context, state) {
+              return state.maybeWhen(
+                orElse: () {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+                error: (error) {
+                  return Text('error: $error');
+                },
+                loaded: (model) {
+                  return ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return DirectionScreen(
+                              origin: model.latLng!,
+                              destination: positionDestination!);
+                        }));
+                      },
+                      child: const Text('Derection'));
+                },
+              );
+            },
           ),
         ],
       ),

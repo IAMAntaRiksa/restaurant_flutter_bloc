@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_caffe_ku/core/models/restaurant/create_restaurant.dart';
 import 'package:flutter_caffe_ku/core/utils/token/token_utils.dart';
 import 'package:flutter_caffe_ku/core/viewmodels/create_restaurant/create_restaurant_bloc.dart';
+import 'package:flutter_caffe_ku/core/viewmodels/location/location_bloc.dart';
 import 'package:flutter_caffe_ku/core/viewmodels/restaurant/restaurant_bloc.dart';
 import 'package:flutter_caffe_ku/ui/constant/constant.dart';
+import 'package:flutter_caffe_ku/ui/screens/gmap_screen.dart';
 import 'package:flutter_caffe_ku/ui/widgets/button/button.dart';
 import 'package:flutter_caffe_ku/ui/widgets/textfield/custom_textfield.dart';
 import 'package:go_router/go_router.dart';
@@ -23,10 +25,7 @@ class AddRestaurantScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Add Restaurant "),
       ),
-      body: BlocProvider<CreateRestaurantBloc>(
-        create: (context) => CreateRestaurantBloc(),
-        child: const AddRestaurantBody(),
-      ),
+      body: const AddRestaurantBody(),
     );
   }
 }
@@ -122,18 +121,35 @@ class _AddRestaurantBodyState extends State<AddRestaurantBody> {
           name: _nameController.text,
           description: _descriptionController.text,
           address: _addressController.text,
-          latitude: "0",
-          longitude: "0",
+          latitude: position == null ? '0' : position!.latitude.toString(),
+          longitude: position == null ? '0' : position!.longitude.toString(),
           photo: "https://picsum.photos/200/300",
           userId: userId,
         ),
       );
+      // ignore: use_build_context_synchronously
       context
           .read<CreateRestaurantBloc>()
           .add(CreateRestaurantEvent.createRestaurant(item, XFile(imageXFile)));
 
       FocusManager.instance.primaryFocus?.unfocus();
     }
+  }
+
+  @override
+  void initState() {
+    context.read<LocationBloc>().add(
+          const LocationEvent.getCurrentLocation(),
+        );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _nameController.dispose();
+    _descriptionController.dispose();
+    _addressController.dispose();
   }
 
   @override
@@ -186,10 +202,56 @@ class _AddRestaurantBodyState extends State<AddRestaurantBody> {
               label: "Description",
               onChanged: (value) {},
             ),
-            QCustomeTextField(
-              controller: _addressController,
-              label: "Address",
-              onChanged: (value) {},
+            BlocBuilder<LocationBloc, LocationState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                  loaded: (model) {
+                    position = model.latLng;
+                    _addressController.text = model.address ?? "";
+                    return Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: QCustomeTextField(
+                            controller: _addressController,
+                            label: "Address",
+                            onChanged: (value) {},
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => GmapPage(
+                                    lat: model.latLng!.latitude,
+                                    long: model.latLng!.longitude,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "Ganti",
+                              style: styleSubtitle.copyWith(
+                                fontSize: setFontSize(40),
+                              ),
+                            ))
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+            const SizedBox(
+              height: 16,
             ),
             BlocConsumer<CreateRestaurantBloc, CreateRestaurantState>(
               listener: (context, state) {
@@ -200,10 +262,17 @@ class _AddRestaurantBodyState extends State<AddRestaurantBody> {
                         content: Text('Field createing restaurant : {$data}')));
                   },
                   loaded: (model) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Success Createing Restaurant')));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          "Success Createing Restaurant ",
+                        ),
+                      ),
+                    );
 
-                    RestaurantBloc.instance(context)
+                    /// Relog data
+                    context
+                        .read<RestaurantBloc>()
                         .add(const RestaurantEvent.getRestaurantById());
                     context.pop();
                   },
