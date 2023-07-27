@@ -1,7 +1,5 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
 
 class Direction {
   final LatLngBounds bounds;
@@ -23,11 +21,13 @@ class Direction {
       'origin': '${origin.latitude},${origin.longitude}',
       'destination': '${destination.latitude},${destination.longitude}',
     };
-    final response = await http.get(
-      Uri.https("maps.googleapis.com", "/maps/api/directions/json", query),
-    );
+    final url =
+        Uri.https("maps.googleapis.com", "/maps/api/directions/json", query);
+    final dio = Dio();
+
+    final response = await dio.get(url.toString());
     if (response.statusCode == 200) {
-      final mapData = jsonDecode(response.body);
+      final mapData = response.data;
       if ((mapData['routes'] as List).isEmpty) {
         return null;
       } else {

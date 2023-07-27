@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_caffe_ku/core/models/direction_mode.dart';
+import 'package:flutter_caffe_ku/core/utils/direction/direction_utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
