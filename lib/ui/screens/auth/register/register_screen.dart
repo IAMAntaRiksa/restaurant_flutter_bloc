@@ -72,113 +72,111 @@ class _RegisterBodyState extends State<RegisterBody> {
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: setWidth(40)),
         child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Register",
-                  style: styleTitle.copyWith(fontSize: setFontSize(80)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Register",
+                style: styleTitle.copyWith(fontSize: setFontSize(80)),
+              ),
+              Text(
+                "Restaurant portal from Indonesia. Login to your account. E-mail and Password?",
+                style: styleSubtitle.copyWith(
+                  fontSize: setFontSize(35),
                 ),
-                Text(
-                  "Restaurant portal from Indonesia. Login to your account. E-mail and Password?",
-                  style: styleSubtitle.copyWith(
-                    fontSize: setFontSize(35),
+              ),
+              QCustomeTextField(
+                controller: _nameController,
+                hint: "Your Name",
+                label: "Name",
+                onChanged: (value) {},
+                suffixIcon: Icons.email,
+              ),
+              QCustomeTextField(
+                controller: _usernameController,
+                hint: "Your Username",
+                label: "username",
+                onChanged: (value) {},
+                suffixIcon: Icons.email,
+              ),
+              QCustomeTextField(
+                controller: _emailController,
+                hint: "Your Email",
+                label: "Email",
+                onChanged: (value) {},
+                suffixIcon: Icons.email,
+              ),
+              SizedBox(
+                height: setHeight(20),
+              ),
+              QCustomeTextField(
+                controller: _passwordController,
+                label: "Password",
+                hint: "Your Password",
+                suffixIcon: Icons.password,
+                obscure: true,
+                onChanged: (value) {},
+              ),
+              BlocConsumer<RegisterBloc, RegisterState>(
+                listener: (context, state) {
+                  state.maybeWhen(
+                    orElse: () {},
+                    error: (data) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error Register: $data')));
+                    },
+                    loaded: (model) async {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              'Success Register: ${model.user?.username}')));
+                      await checkTokken.saveTokenUser(model);
+                      // ignore: use_build_context_synchronously
+                      context.push(MyRestaurantScreen.routeName);
+                    },
+                  );
+                },
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return QButtomWidget(
+                        label: "Register",
+                        color: Colors.green,
+                        onPressed: () => sendRegister(),
+                      );
+                    },
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    "Already have an account?",
+                    style: styleSubtitle.copyWith(
+                      fontSize: setFontSize(40),
+                    ),
                   ),
-                ),
-                QCustomeTextField(
-                  controller: _nameController,
-                  hint: "Your Name",
-                  label: "Name",
-                  onChanged: (value) {},
-                  suffixIcon: Icons.email,
-                ),
-                QCustomeTextField(
-                  controller: _usernameController,
-                  hint: "Your Username",
-                  label: "username",
-                  onChanged: (value) {},
-                  suffixIcon: Icons.email,
-                ),
-                QCustomeTextField(
-                  controller: _emailController,
-                  hint: "Your Email",
-                  label: "Email",
-                  onChanged: (value) {},
-                  suffixIcon: Icons.email,
-                ),
-                SizedBox(
-                  height: setHeight(20),
-                ),
-                QCustomeTextField(
-                  controller: _passwordController,
-                  label: "Password",
-                  hint: "Your Password",
-                  suffixIcon: Icons.password,
-                  obscure: true,
-                  onChanged: (value) {},
-                ),
-                BlocConsumer<RegisterBloc, RegisterState>(
-                  listener: (context, state) {
-                    state.maybeWhen(
-                      orElse: () {},
-                      error: (data) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Error Register: $data')));
-                      },
-                      loaded: (model) async {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                'Success Register: ${model.user?.username}')));
-                        await checkTokken.saveTokenUser(model);
-                        // ignore: use_build_context_synchronously
-                        context.push(MyRestaurantScreen.routeName);
-                      },
-                    );
-                  },
-                  builder: (context, state) {
-                    return state.maybeWhen(
-                      orElse: () {
-                        return QButtomWidget(
-                          label: "Register",
-                          color: Colors.green,
-                          onPressed: () => sendRegister(),
-                        );
-                      },
-                      loading: () => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  },
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text(
-                      "Already have an account?",
+                  TextButton(
+                    onPressed: () {
+                      context.go(
+                        LoginScreen.routeName,
+                      );
+                    },
+                    child: Text(
+                      'Login Here',
                       style: styleSubtitle.copyWith(
                         fontSize: setFontSize(40),
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        context.go(
-                          LoginScreen.routeName,
-                        );
-                      },
-                      child: Text(
-                        'Login Here',
-                        style: styleSubtitle.copyWith(
-                          fontSize: setFontSize(40),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

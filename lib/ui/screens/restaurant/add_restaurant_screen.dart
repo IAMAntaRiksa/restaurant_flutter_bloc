@@ -231,7 +231,7 @@ class _AddRestaurantBodyState extends State<AddRestaurantBody> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => GmapPage(
+                                  builder: (context) => GmapScreen(
                                     lat: model.latLng!.latitude,
                                     long: model.latLng!.longitude,
                                   ),

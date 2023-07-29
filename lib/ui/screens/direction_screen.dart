@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_caffe_ku/core/utils/direction/direction_utils.dart';
+import 'package:flutter_caffe_ku/gen/assets.gen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
@@ -30,7 +31,7 @@ class _DirectionScreenState extends State<DirectionScreen> {
   void addCustomIcon() {
     BitmapDescriptor.fromAssetImage(
             const ImageConfiguration(size: Size(10, 10)),
-            "assets/markers/car.png")
+            Assets.markers.car.path)
         .then(
       (icon) {
         setState(() {
@@ -63,8 +64,6 @@ class _DirectionScreenState extends State<DirectionScreen> {
     }
   }
 
-  bool isNavigationOn = false;
-
   @override
   void initState() {
     addCustomIcon();
@@ -73,33 +72,31 @@ class _DirectionScreenState extends State<DirectionScreen> {
     Future.microtask(() async {
       await setupLocation();
     });
+  }
 
+  void locat() {
     location.onLocationChanged.listen((event) {
-      print('active');
-      if (isNavigationOn) {
-        print('active on');
-        final latlng = LatLng(event.latitude!, event.longitude!);
+      final latlng = LatLng(event.latitude!, event.longitude!);
 
-        CameraPosition cameraPosition = CameraPosition(
-          target: latlng,
-          zoom: 16,
-          tilt: 80,
-          bearing: 30,
-        );
+      CameraPosition cameraPosition = CameraPosition(
+        target: latlng,
+        zoom: 16,
+        tilt: 80,
+        bearing: 30,
+      );
 
-        mapController.animateCamera(
-          CameraUpdate.newCameraPosition(cameraPosition),
-        );
+      mapController.animateCamera(
+        CameraUpdate.newCameraPosition(cameraPosition),
+      );
 
-        setState(() {
-          markers.removeWhere((element) => element.markerId.value == 'source');
-          markers.add(Marker(
-            markerId: const MarkerId('source'),
-            position: latlng,
-            icon: markerIcon,
-          ));
-        });
-      }
+      setState(() {
+        markers.removeWhere((element) => element.markerId.value == 'source');
+        markers.add(Marker(
+          markerId: const MarkerId('source'),
+          position: latlng,
+          icon: markerIcon,
+        ));
+      });
     });
   }
 
@@ -118,7 +115,7 @@ class _DirectionScreenState extends State<DirectionScreen> {
     final polyline = Polyline(
       polylineId: const PolylineId('default-polyline'),
       color: Colors.blue,
-      width: 7,
+      width: 8,
       points: polylineCoordinates,
     );
 
@@ -171,43 +168,48 @@ class _DirectionScreenState extends State<DirectionScreen> {
               },
             ),
             Positioned(
-                bottom: 16,
-                right: 16,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    FloatingActionButton(
-                      onPressed: () async {
-                        markers.removeWhere(
-                            (element) => element.markerId.value == 'source');
-                        markers.add(Marker(
-                            markerId: const MarkerId('source'),
-                            position: widget.origin,
-                            icon: BitmapDescriptor.defaultMarkerWithHue(
-                                BitmapDescriptor.hueRed)));
-                        markers.add(Marker(
-                            markerId: const MarkerId('des'),
-                            position: widget.destination,
-                            icon: BitmapDescriptor.defaultMarkerWithHue(
-                                BitmapDescriptor.hueRed)));
-                        setState(() {});
-                        await setPolylines(widget.origin, widget.destination);
-                      },
-                      child: const Icon(Icons.navigation),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    FloatingActionButton(
-                      onPressed: () {
-                        setState(() {
-                          isNavigationOn = true;
-                        });
-                      },
-                      child: const Icon(Icons.run_circle),
-                    )
-                  ],
-                ))
+              bottom: 16,
+              right: 16,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FloatingActionButton(
+                    onPressed: () async {
+                      markers.removeWhere(
+                          (element) => element.markerId.value == 'source');
+                      markers.add(Marker(
+                          markerId: const MarkerId('source'),
+                          position: widget.origin,
+                          icon: BitmapDescriptor.defaultMarkerWithHue(
+                              BitmapDescriptor.hueRed)));
+                      markers.add(
+                        Marker(
+                          markerId: const MarkerId('des'),
+                          position: widget.destination,
+                          icon: BitmapDescriptor.defaultMarkerWithHue(
+                            BitmapDescriptor.hueRed,
+                          ),
+                        ),
+                      );
+                      setState(() {});
+                      await setPolylines(widget.origin, widget.destination);
+                    },
+                    child: const Icon(Icons.navigation),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      setState(() {
+                        locat();
+                      });
+                    },
+                    child: const Icon(Icons.run_circle),
+                  )
+                ],
+              ),
+            )
           ],
         ),
       ),

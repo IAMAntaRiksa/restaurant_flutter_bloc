@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_caffe_ku/core/models/restaurant/restaurant_model.dart';
 import 'package:flutter_caffe_ku/core/viewmodels/detail_restaurant/detail_restaurant_bloc.dart';
 import 'package:flutter_caffe_ku/core/viewmodels/location/location_bloc.dart';
+import 'package:flutter_caffe_ku/gen/assets.gen.dart';
 import 'package:flutter_caffe_ku/ui/constant/constant.dart';
 import 'package:flutter_caffe_ku/ui/screens/direction_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -80,8 +81,8 @@ class RestaurantDetailSliverBody extends StatelessWidget {
             title: Text(
               restaurant.attributes!.name,
               style: styleTitle.copyWith(
-                fontSize: setFontSize(45),
-                color: blackColor,
+                fontSize: setFontSize(50),
+                color: Colors.white,
               ),
             ),
             leading: Padding(
@@ -280,7 +281,7 @@ class __RestaurantMapDetailWidgetState
   void addCustomIcon() {
     BitmapDescriptor.fromAssetImage(
             ImageConfiguration(size: Size(setWidth(20), setHeight(20))),
-            "assets/markers/mappin.png")
+            Assets.markers.mappin.path)
         .then(
       (icon) {
         setState(() {
@@ -353,15 +354,21 @@ class __RestaurantMapDetailWidgetState
                 },
                 loaded: (model) {
                   return ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return DirectionScreen(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return DirectionScreen(
                               origin: model.latLng!,
-                              destination: positionDestination!);
-                        }));
-                      },
-                      child: const Text('Derection'));
+                              destination: positionDestination!,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    child: const Text('Derection'),
+                  );
                 },
               );
             },

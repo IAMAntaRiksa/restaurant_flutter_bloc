@@ -3,21 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_caffe_ku/core/viewmodels/location/location_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class GmapPage extends StatefulWidget {
+class GmapScreen extends StatefulWidget {
   final double lat;
   final double long;
 
-  const GmapPage({
+  const GmapScreen({
     Key? key,
     required this.lat,
     required this.long,
   }) : super(key: key);
 
   @override
-  State<GmapPage> createState() => _GmapPageState();
+  State<GmapScreen> createState() => _GmapScreenState();
 }
 
-class _GmapPageState extends State<GmapPage> {
+class _GmapScreenState extends State<GmapScreen> {
   final TextEditingController addressController = TextEditingController();
   late GoogleMapController _mapController;
   final Set<Marker> _markers = {};
