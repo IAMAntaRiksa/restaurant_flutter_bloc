@@ -33,9 +33,9 @@ class TokenUtils {
     return tokens.isNotEmpty;
   }
 
-  Future<bool> removeToken() async {
-    final SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.remove(_token);
+  Future<void> removeToken() async {
+    final shared = SharedManager<String>();
+    shared.clear(_token);
   }
 }
 
